@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'eclipse'
-    id "me.champeau.jmh" version "0.6.6"
+    id "me.champeau.jmh" version "0.6.7"
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
