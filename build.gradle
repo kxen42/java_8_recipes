@@ -20,7 +20,7 @@ test {
     maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2)
 }
 
-String JUNIT5_VERSION = '5.8.2'
+String JUNIT5_VERSION = '5.9.0'
 
 dependencies {
     testImplementation 'org.hamcrest:hamcrest:2.2'
