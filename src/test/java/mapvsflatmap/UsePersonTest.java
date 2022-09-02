@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UsePersonTest {
@@ -26,22 +25,22 @@ public class UsePersonTest {
 
     @Test
     public void createPersonListJava7() {
-        assertThat(up.createPersonListJava7(), containsInAnyOrder(people));
+        assertThat(up.createPersonListJava7()).contains(people);
     }
 
     @Test
     public void createPersonList() {
-        assertThat(up.createPersonList(), containsInAnyOrder(people));
+        assertThat(up.createPersonList()).contains(people);
     }
 
     @Test
     public void createPersonList_CtorRef() {
-        assertThat(up.createPersonList_CtorRef(), containsInAnyOrder(people));
+        assertThat(up.createPersonList_CtorRef()).contains(people);
     }
 
     @Test
     public void createPersonList_2ArgCtrRef() {
-        assertThat(up.createPersonList_2ArgCtrRef(), containsInAnyOrder(people));
+        assertThat(up.createPersonList_2ArgCtrRef()).contains(people);
     }
 
     @Test
@@ -75,26 +74,26 @@ public class UsePersonTest {
                 .map(name -> name.split(" "))  // Stream<String[]>
                 .map(Person::new)              // Stream<Person> using String... ctor
                 .collect(Collectors.toList());
-        assertThat(persons, containsInAnyOrder(people));
+        assertThat(persons).contains(people);
     }
 
     @Test
     public void createPersonLinkedList() {
-        assertThat(up.createPersonLinkedList(), containsInAnyOrder(people));
+        assertThat(up.createPersonLinkedList()).contains(people);
     }
 
     @Test
     public void createPersonArray() {
-        assertThat(Arrays.asList(up.createPersonArray()), containsInAnyOrder(people));
+        assertThat(Arrays.asList(up.createPersonArray())).contains(people);
     }
 
     @Test
     public void createPersonListUsingNew() {
-        assertThat(up.createPersonListUsingNew(), containsInAnyOrder(people));
+        assertThat(up.createPersonListUsingNew()).contains(people);
     }
 
     @Test
     public void createPersonListUsingNewWithLambdas() {
-        assertThat(up.createPersonListUsingNewWithLambdas(), containsInAnyOrder(people));
+        assertThat(up.createPersonListUsingNewWithLambdas()).contains(people);
     }
 }

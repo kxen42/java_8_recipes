@@ -1,11 +1,9 @@
 package streams;
 
-
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StreamsDemoTest {
@@ -28,8 +26,7 @@ public class StreamsDemoTest {
 
     @Test
     public void testSumFirstNBigDecimals() {
-        assertThat(demo.sumFirstNBigDecimals(10),
-                is(closeTo(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, 0.01)));
+        assertThat(demo.sumFirstNBigDecimals(10)).isEqualTo(55, within(0.0001));
     }
 
     @Test
@@ -41,14 +38,14 @@ public class StreamsDemoTest {
     public void testSumRandoms1() {
         int num = 1000;
         double err = num * 0.05;
-        assertThat(demo.sumRandoms1(num), is(closeTo(num / 2.0, err)));
+        assertThat(demo.sumRandoms1(num)).isEqualTo(num / 2.0, within(err));
     }
 
     @Test
     public void testSumRandoms2() {
         int num = 1000;
         double err = num * 0.05;
-        assertThat(demo.sumRandoms2(num), is(closeTo(num / 2.0, err)));
+        assertThat(demo.sumRandoms2(num)).isEqualTo(num / 2.0, within(err));
     }
 
     @Test
@@ -60,6 +57,6 @@ public class StreamsDemoTest {
     public void testSumRandoms3() {
         int num = 1000;
         double err = num * 0.05;
-        assertThat(demo.sumRandoms3(num), is(closeTo(num / 2.0, err)));
+        assertThat(demo.sumRandoms3(num)).isEqualTo(num / 2.0, within(err));
     }
 }

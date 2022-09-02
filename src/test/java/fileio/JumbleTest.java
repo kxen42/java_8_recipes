@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,7 +23,7 @@ class JumbleTest {
     void checkParallelSolve() {
         List<String> strings = jumble.parallelSolve("zaaem", "rwdoc", "tlufan");
         System.out.println(strings);
-        assertThat(strings, containsInAnyOrder("amaze", "crowd", "flaunt"));
+        assertThat(strings).contains("amaze", "crowd", "flaunt");
         System.out.println(jumble.parallelSolve("snsaoe", "craigl", "ssevur",
                 "lonelp", "nlahed", "ceitkl"));
     }

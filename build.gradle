@@ -1,7 +1,8 @@
 plugins {
-    id 'java-library'
-    id 'eclipse'
-    id "me.champeau.jmh" version "0.6.7"
+    id 'java'
+    alias(libs.plugins.versions)
+    alias(libs.plugins.version.catalog.update)
+    alias(libs.plugins.jmh.gradle)
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -20,17 +21,18 @@ test {
     maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2)
 }
 
-String JUNIT5_VERSION = '5.9.0'
-
 dependencies {
-    testImplementation 'org.hamcrest:hamcrest:2.2'
-    testImplementation "org.junit.jupiter:junit-jupiter:$JUNIT5_VERSION"
+    // JUnit bundle (includes vintage engine)
+    testImplementation libs.bundles.junit
 
-    testImplementation 'junit:junit:4.13.2'
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:$JUNIT5_VERSION"
+    // Mockito bundle (inline and JUnit Jupiter engine)
+    testImplementation libs.bundles.mockito
 
-    jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.35'
-    jmh 'org.openjdk.jmh:jmh-core:1.35'
+    // AssertJ
+    testImplementation libs.assertj
+
+    // JMH
+    jmh libs.bundles.jmh
 }
 
 
