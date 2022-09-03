@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-//  Benchmark                      Mode  Cnt  Score   Error  Units
-//  LongStreamBenchmark.longValue  avgt   40  2.055 ± 0.032  ms/op
-//  LongStreamBenchmark.valueOf    avgt   40  7.372 ± 0.542  ms/op
-
+// Sept 2, 2022. M1 Max 64GB RAM, 10 cores
+// Benchmark                       Mode  Cnt  Score   Error  Units
+// LongStreamBenchmark.longValue   avgt   10  0.568 ± 0.015  ms/op
+// LongStreamBenchmark.valueOf     avgt   10  2.624 ± 0.019  ms/op
 
 @SuppressWarnings("ALL")
 @BenchmarkMode(Mode.AverageTime)

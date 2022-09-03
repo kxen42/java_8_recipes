@@ -8,11 +8,11 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.LongStream;
 
-//Benchmark                                    Mode  Cnt  Score   Error  Units
-// CustomPoolBenchmark.addNumsBiggerCommonPool  avgt   40  2.787 ± 0.095  ms/op
-// CustomPoolBenchmark.addNumsCommonPool        avgt   40  1.665 ± 0.647  ms/op
-// CustomPoolBenchmark.addNumsCustomFJPool      avgt   40  4.663 ± 0.140  ms/op
-
+// Sept 2, 2022. M1 Max 64GB RAM, 10 cores
+//Benchmark                                     Mode  Cnt  Score   Error  Units
+// CustomPoolBenchmark.addNumsBiggerCommonPool  avgt   10  0.254 ± 0.003  ms/op
+// CustomPoolBenchmark.addNumsCommonPool        avgt   10  0.198 ± 0.011  ms/op
+// CustomPoolBenchmark.addNumsCustomFJPool      avgt   10  0.968 ± 0.013  ms/op
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

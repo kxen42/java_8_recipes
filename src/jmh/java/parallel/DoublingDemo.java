@@ -5,10 +5,10 @@ import org.openjdk.jmh.annotations.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-// latest results (Apr 27, 2022):
+// Sept 2, 2022. M1 Max 64GB RAM, 10 cores
 // Benchmark                            Mode  Cnt    Score   Error  Units
-// DoublingDemo.doubleAndSumParallel    avgt   10  105.047 ± 0.390  ms/op
-// DoublingDemo.doubleAndSumSequential  avgt   10  623.405 ± 1.097  ms/op
+// DoublingDemo.doubleAndSumParallel    avgt   10  104.405 ± 0.283  ms/op
+// DoublingDemo.doubleAndSumSequential  avgt   10  621.913 ± 1.067  ms/op
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

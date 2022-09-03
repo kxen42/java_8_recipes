@@ -11,10 +11,10 @@ repositories {
     mavenCentral()
 }
 
-jmh {
-    duplicateClassesStrategy = DuplicatesStrategy.WARN
-    includes = ['parallel.DoublingDemo.*', 'parallel.CustomPoolBenchmark.*']
-}
+//jmh {
+//    duplicateClassesStrategy = DuplicatesStrategy.WARN
+//    includes = ['parallel.DoublingDemo.*', 'parallel.CustomPoolBenchmark.*']
+//}
 
 test {
     useJUnitPlatform()

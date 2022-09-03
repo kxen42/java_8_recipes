@@ -8,13 +8,12 @@ import java.util.stream.Stream;
 
 // From Java 8 and 9 in Action (now called Modern Java in Action)
 
-// New M1 Max results (Jan 13, 2022):
-// Benchmark                                        Mode  Cnt   Score   Error  Units
-// ParallelStreamBenchmark.iterativeSum             avgt   10   3.244 ± 0.013  ms/op
-// ParallelStreamBenchmark.sequentialStreamSum      avgt   10  58.416 ± 0.139  ms/op
-// ParallelStreamBenchmark.parallelStreamSum        avgt   10  45.632 ± 0.690  ms/op
-// ParallelStreamBenchmark.sequentialLongStreamSum  avgt   10   6.350 ± 0.028  ms/op
-// ParallelStreamBenchmark.parallelLongStreamSum    avgt   10   0.484 ± 0.016  ms/op
+// Sept 2, 2022. M1 Max 64GB RAM, 10 cores
+// ParallelStreamBenchmark.iterativeSum             avgt   10    3.256 ± 0.011  ms/op
+// ParallelStreamBenchmark.parallelLongStreamSum    avgt   10    0.484 ± 0.003  ms/op
+// ParallelStreamBenchmark.parallelStreamSum        avgt   10   50.626 ± 1.095  ms/op
+// ParallelStreamBenchmark.sequentialLongStreamSum  avgt   10    6.381 ± 0.027  ms/op
+// ParallelStreamBenchmark.sequentialStreamSum      avgt   10   58.474 ± 0.555  ms/op
 
 @SuppressWarnings("ALL")
 @BenchmarkMode(Mode.AverageTime)
