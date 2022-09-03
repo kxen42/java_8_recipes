@@ -11,11 +11,6 @@ repositories {
     mavenCentral()
 }
 
-//jmh {
-//    duplicateClassesStrategy = DuplicatesStrategy.WARN
-//    includes = ['parallel.DoublingDemo.*', 'parallel.CustomPoolBenchmark.*']
-//}
-
 test {
     useJUnitPlatform()
     maxParallelForks = (int) (Runtime.runtime.availableProcessors() / 2)
