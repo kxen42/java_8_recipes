@@ -1,4 +1,6 @@
-package streams;
+package streams.reduce;
+
+import streams.Book;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
