@@ -11,9 +11,16 @@ import java.util.OptionalLong;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 /**
  * reduce(Identity, Accumulator)
+ *
+ * <em>Important Note:</em> The identity value must have certain properties,
+ * It must be the neutral element of the operation. For example, 0 is the
+ * neutral element for addition, and 1 is the neutral element for multiplication.
+ * Applying the operation with the identity value should not change the result.
+ * For instance, adding 0 to any number should return the number itself.
  */
 public class Basics {
     public static void main(String[] args) {
@@ -88,6 +95,8 @@ public class Basics {
     public static void canDo() {
         List<User> users = List.of(new User("John", 30), new
             User("Julie", 35));
+
+        // neutral element for addition is 0
         int a =
             users.stream()
                  .map(User::getAge)
@@ -96,7 +105,43 @@ public class Basics {
 
         assertThat(a).isEqualTo(65);
 
+        // neutral element of subtraction is 0
+        var b = IntStream.of(2,4,8).reduce(0, (x,y) -> x - y);
 
+        assertThat(b).isEqualTo(-14);
+
+        // neutral element of multiplication is 1
+        var c = IntStream.of(2,2,2).reduce(1, (x,y) -> x * y);
+
+        assertThat(c).isEqualTo(8);
+
+        // integer division doesn't have a neutral element
+        // (((1/33) / 3)
+        var d = IntStream.of(33,3).reduce(1, (x,y) -> x / y);
+
+        assertThat(d).isEqualTo(0);
+
+        // integer mod doesn't have neutral element
+        // ((1 % 33) % 3)
+        var e = IntStream.of(33,3).reduce(1, (x,y) -> x % y);
+
+        assertThat(e).isEqualTo(1);
+
+        // (((1 / 3.0) / 4.0) / 0.2)
+        var f = DoubleStream.of(3.0, 4.0, 0.2).reduce(1,(x,y) -> x/y);
+        // f is within this range 0.246 <= f <= 0.586
+        assertThat(f).isCloseTo(0.416, withinPercentage(0.17));
+
+        // OptionalDoubleAssert
+        // (((1.0 / 3.0) / 4.0) / 0.2)
+        var g = DoubleStream.of(1.0, 3.0, 4.0, 0.2).reduce((x,y) -> x/y);
+
+        assertThat(g).hasValueCloseTo(0.416, within(0.17));
+
+        // neutral element for String is empty string
+        var h = Stream.of("Fred", "Wilma", "Barney").reduce("", (x,y) -> String.join(",", x, y));
+
+        assertThat(h).isEqualTo(",Fred,Wilma,Barney");
     }
 
     public static void findDog() {
