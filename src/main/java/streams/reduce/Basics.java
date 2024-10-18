@@ -14,13 +14,29 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * reduce(Identity, Accumulator)
+ * The flavors of <em>reduce</em>:
+ * <pre>
+ * Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt;  accumulator)
+ *
+ * T reduce(T identity, BinaryOperator&lt;T&gt;  accumulator)
+ *
+ * &lt;U&gt; U reduce(U identity, BiFunction&lt;U, ? super T, U&gt; accumulator, BinaryOperator&lt;U&gt;  combiner)
+ * </pre>
  *
  * <em>Important Note:</em> The identity value must have certain properties,
  * It must be the neutral element of the operation. For example, 0 is the
  * neutral element for addition, and 1 is the neutral element for multiplication.
  * Applying the operation with the identity value should not change the result.
  * For instance, adding 0 to any number should return the number itself.
+ * <p>
+ * From the Stream API documentation about using the combiner:<br>
+ * The identity value must be an identity for the <em>combiner function</em>. This means that for all u,<br>
+ * {@code combiner(identity, u)} is equal to u. <br>
+ * Additionally, the combiner function must be compatible with the accumulator function;<br>
+ * for all u and t, the following must hold:<br>
+ * {@code combiner.apply(u, accumulator.apply(identity, t)) == accumulator.apply(u, t)}
+ *
+ * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html" target="_top">https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html</a>
  */
 public class Basics {
     public static void main(String[] args) {
@@ -28,6 +44,7 @@ public class Basics {
         sumList();
         canDo();
         findDog();
+        joinStrings();
         withCombiner();
     }
 
@@ -179,10 +196,30 @@ public class Basics {
         assertThat(d).hasValue("dog");
     }
 
+    public static void joinStrings() {
+        // avoid a leading comma
+        var a = Stream.of("Fred", "Wilma", "Betty")
+                      .reduce("", (x,y) -> x.isEmpty() ? y : String.join(", ", x, y));
+
+        assertThat(a).isEqualTo("Fred, Wilma, Betty");
+    }
+
+    /*
+    This is an example of using the Combiner when the Accumulator arguments aren't the same type.
+    Accumulator arguments have different types (i.e. the 2nd argument type doesn't match Identity type).
+
+    Here the Identity type is int, so the Combiner must produce an int.
+    The 2nd argument of the Accumulator is a String.
+    Accumulator "int (int, String) -> int + int"
+    Accumulator evaluation (((0 + 3) + 4) + 5)  this looks like it would be an int, but the result is actual a String.
+    Combiner "int (int, int) -> int + int".
+
+    The other use for a Combiner is for combining the partial results from parallel streams.
+     */
     public static void withCombiner() {
         List<String> strings = List.of("boo", "ouch", "yadda");
         var a = strings.stream().reduce(0,
-                                        (i, s) -> i + s.length(),
+                                        (i, str) -> i + str.length(),
                                         (x, y) -> x + y);
 
         assertThat(a).isEqualTo(12);
