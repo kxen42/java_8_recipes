@@ -1,4 +1,4 @@
-package streams.reduce.baeldung;
+package streams.reduce;
 
 import java.util.List;
 

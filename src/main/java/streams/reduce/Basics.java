@@ -1,4 +1,4 @@
-package streams.reduce.baeldung;
+package streams.reduce;
 
 import static org.assertj.core.api.Assertions.*;
 import model.User;
