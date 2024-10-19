@@ -2,6 +2,7 @@ package streams.reduce;
 
 import static org.assertj.core.api.Assertions.*;
 import model.User;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,22 +39,16 @@ import java.util.stream.Stream;
  *
  * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html" target="_top">https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html</a>
  */
-public class Basics {
-    public static void main(String[] args) {
-        emptyResult();
-        sumList();
-        canDo();
-        findDog();
-        joinStrings();
-        withCombiner();
-    }
+public class BasicsTest {
 
+
+    @Test
     // T reduce(T identity, BinaryOperator<T> accumulator)
-    public static void emptyResult() {
+    public void emptyResult() {
         // empty stream returns identity
         List<Integer> items = List.of();
         var a = items.stream()
-                              .reduce((x, y) -> x * y);
+                     .reduce((x, y) -> x * y);
 
         assertThat(a).isEqualTo(Optional.empty());
 
@@ -70,20 +65,21 @@ public class Basics {
         assertThat(d).isEqualTo(OptionalDouble.empty());
     }
 
+    @Test
     // T reduce(T identity, BinaryOperator<T> accumulator)
-    public static void sumList() {
+    public void sumList() {
         // the accumulator sums the numbers
         List<Integer> nums = List.of(1,2,3,4,5,6);
 
         // use two parameters for accumulator
         int a = nums.stream()
-            .reduce(0, (partialResult, nextElement) -> partialResult + nextElement);
+                    .reduce(0, (partialResult, nextElement) -> partialResult + nextElement);
 
         assertThat(a).isEqualTo(21);
 
         // use method reference for accumulator
         int b = nums.stream()
-            .reduce(0, Integer::sum);
+                    .reduce(0, Integer::sum);
 
         assertThat(b).isEqualTo(21);
 
@@ -108,8 +104,9 @@ public class Basics {
 //                partialAgeResult + user.getAge());
 //    }
 
+    @Test
     // T reduce(T identity, BinaryOperation<T> accumulator)
-    public static void canDo() {
+    public void canDo() {
         List<User> users = List.of(new User("John", 30), new
             User("Julie", 35));
 
@@ -161,7 +158,8 @@ public class Basics {
         assertThat(h).isEqualTo(",Fred,Wilma,Barney");
     }
 
-    public static void findDog() {
+    @Test
+    public void findDog() {
         List<String> strings = List.of("dog", "over", "good");
 
         var a = strings.stream().reduce(new String(), (x,y) -> {
@@ -196,7 +194,8 @@ public class Basics {
         assertThat(d).hasValue("dog");
     }
 
-    public static void joinStrings() {
+    @Test
+    public void joinStrings() {
         // avoid a leading comma
         var a = Stream.of("Fred", "Wilma", "Betty")
                       .reduce("", (x,y) -> x.isEmpty() ? y : String.join(", ", x, y));
@@ -216,7 +215,8 @@ public class Basics {
 
     The other use for a Combiner is for combining the partial results from parallel streams.
      */
-    public static void withCombiner() {
+    @Test
+    public void withCombiner() {
         List<String> strings = List.of("boo", "ouch", "yadda");
         var a = strings.stream().reduce(0,
                                         (i, str) -> i + str.length(),

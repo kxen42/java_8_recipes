@@ -1,5 +1,7 @@
 package streams.reduce;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -23,23 +25,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * Applying the operation with the identity value should not change the result.
  * For instance, adding 0 to any number should return the number itself.
  */
-public class Parallel {
-    public static void main(String[] args) {
-        /*
-         * Remember that
-         *  T BinaryOperator<T,T> is the same as
-         *  BiFunction<T,T,T>
-         */
-        sumSum();
-    }
-
+public class ParallelTest {
 
     /*
+     Remember that
+        T BinaryOperator<T,T> is the same as
+        BiFunction<T,T,T>
+
     This is an example of using the Combiner for combining the partial results of the parallel streams.
 
     The other use for a Combiner is when the Accumulator 2nd argument type is not the same as the Identity.
     */
-    public static void sumSum() {
+    @Test
+    public void sumSum() {
         List<Integer> ages = List.of(1, 2, 3, 4, 5, 6);
 
         // accumulator does sum and combiner does sum
