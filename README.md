@@ -15,3 +15,7 @@ For Eclipse (and Eclipse-based tools, like STS):
 * Wait for the dependencies to be downloaded
 * Choose `File -> Import… -> General -> Existing Projects into Workspace`
 * Navigate to the root of the project and select it
+
+# Best Explanations I Have Seen
+
+For Stream.reduce() https://www.logicbig.com/tutorials/core-java-tutorial/java-util-stream/reduction.html
