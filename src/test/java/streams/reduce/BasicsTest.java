@@ -1,6 +1,7 @@
 package streams.reduce;
 
 import static org.assertj.core.api.Assertions.*;
+
 import model.User;
 import org.junit.Test;
 
@@ -9,6 +10,8 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -52,15 +55,18 @@ public class BasicsTest {
 
         assertThat(a).isEqualTo(Optional.empty());
 
-        var b = IntStream.of().reduce((x, y) -> x * y);
+        var b = IntStream.of()
+                         .reduce((x, y) -> x * y);
 
         assertThat(b).isEqualTo(OptionalInt.empty());
 
-        var c = LongStream.of().reduce((x, y) -> x * y);
+        var c = LongStream.of()
+                          .reduce((x, y) -> x * y);
 
         assertThat(c).isEqualTo(OptionalLong.empty());
 
-        var d = DoubleStream.of().reduce((x, y) -> x * y);
+        var d = DoubleStream.of()
+                            .reduce((x, y) -> x * y);
 
         assertThat(d).isEqualTo(OptionalDouble.empty());
     }
@@ -69,7 +75,7 @@ public class BasicsTest {
     // T reduce(T identity, BinaryOperator<T> accumulator)
     public void sumList() {
         // the accumulator sums the numbers
-        List<Integer> nums = List.of(1,2,3,4,5,6);
+        List<Integer> nums = List.of(1, 2, 3, 4, 5, 6);
 
         // use two parameters for accumulator
         int a = nums.stream()
@@ -84,11 +90,13 @@ public class BasicsTest {
         assertThat(b).isEqualTo(21);
 
         List<String> strings = List.of("a", "b", "c");
-        String c = strings.stream().reduce("", (x, y) -> x + y);
+        String c = strings.stream()
+                          .reduce("", (x, y) -> x + y);
 
         assertThat(c).isEqualTo("abc");
 
-        String d = strings.stream().reduce("", String::concat);
+        String d = strings.stream()
+                          .reduce("", String::concat);
 
         assertThat(d).isEqualTo("abc");
     }
@@ -120,40 +128,47 @@ public class BasicsTest {
         assertThat(a).isEqualTo(65);
 
         // neutral element of subtraction is 0
-        var b = IntStream.of(2,4,8).reduce(0, (x,y) -> x - y);
+        var b = IntStream.of(2, 4, 8)
+                         .reduce(0, (x, y) -> x - y);
 
         assertThat(b).isEqualTo(-14);
 
         // neutral element of multiplication is 1
-        var c = IntStream.of(2,2,2).reduce(1, (x,y) -> x * y);
+        var c = IntStream.of(2, 2, 2)
+                         .reduce(1, (x, y) -> x * y);
 
         assertThat(c).isEqualTo(8);
 
         // integer division doesn't have a neutral element
         // (((1/33) / 3)
-        var d = IntStream.of(33,3).reduce(1, (x,y) -> x / y);
+        var d = IntStream.of(33, 3)
+                         .reduce(1, (x, y) -> x / y);
 
         assertThat(d).isEqualTo(0);
 
         // integer mod doesn't have neutral element
         // ((1 % 33) % 3)
-        var e = IntStream.of(33,3).reduce(1, (x,y) -> x % y);
+        var e = IntStream.of(33, 3)
+                         .reduce(1, (x, y) -> x % y);
 
         assertThat(e).isEqualTo(1);
 
         // (((1 / 3.0) / 4.0) / 0.2)
-        var f = DoubleStream.of(3.0, 4.0, 0.2).reduce(1,(x,y) -> x/y);
+        var f = DoubleStream.of(3.0, 4.0, 0.2)
+                            .reduce(1, (x, y) -> x / y);
         // f is within this range 0.246 <= f <= 0.586
         assertThat(f).isCloseTo(0.416, withinPercentage(0.17));
 
         // OptionalDoubleAssert
         // (((1.0 / 3.0) / 4.0) / 0.2)
-        var g = DoubleStream.of(1.0, 3.0, 4.0, 0.2).reduce((x,y) -> x/y);
+        var g = DoubleStream.of(1.0, 3.0, 4.0, 0.2)
+                            .reduce((x, y) -> x / y);
 
         assertThat(g).hasValueCloseTo(0.416, within(0.17));
 
         // neutral element for String is empty string
-        var h = Stream.of("Fred", "Wilma", "Barney").reduce("", (x,y) -> String.join(",", x, y));
+        var h = Stream.of("Fred", "Wilma", "Barney")
+                      .reduce("", (x, y) -> String.join(",", x, y));
 
         assertThat(h).isEqualTo(",Fred,Wilma,Barney");
     }
@@ -162,10 +177,11 @@ public class BasicsTest {
     public void findDog() {
         List<String> strings = List.of("dog", "over", "good");
 
-        var a = strings.stream().reduce(new String(), (x,y) -> {
-            if (x.equals("dog")) return x;
-            return y;
-        });
+        var a = strings.stream()
+                       .reduce(new String(), (x, y) -> {
+                           if (x.equals("dog")) return x;
+                           return y;
+                       });
 
         assertThat(a).isEqualTo("dog");
 
@@ -178,18 +194,21 @@ public class BasicsTest {
         // returns Optional[dogog]
 //        var boo = strings.stream().reduce((x, y) -> x + y.charAt(0) );
 
-        var b = strings.stream().reduce("", (x, y) -> x.length() < 3 ? x : y );
+        var b = strings.stream()
+                       .reduce("", (x, y) -> x.length() < 3 ? x : y);
 
         assertThat(b).isEmpty();
 
         // returns Optional[good]
         // using AssertJ hasValue to test the value of an Optional, avoids potential exception from get()
-        var c = strings.stream().reduce((x, y) -> x.length() < 3 ? x : y );
+        var c = strings.stream()
+                       .reduce((x, y) -> x.length() < 3 ? x : y);
 
         assertThat(c).hasValue("good");
 
         // returns Optional[dog]
-        var d = strings.stream().reduce((x, y) -> x.length() <= 3 ? x : y );
+        var d = strings.stream()
+                       .reduce((x, y) -> x.length() <= 3 ? x : y);
 
         assertThat(d).hasValue("dog");
     }
@@ -198,7 +217,7 @@ public class BasicsTest {
     public void joinStrings() {
         // avoid a leading comma
         var a = Stream.of("Fred", "Wilma", "Betty")
-                      .reduce("", (x,y) -> x.isEmpty() ? y : String.join(", ", x, y));
+                      .reduce("", (x, y) -> x.isEmpty() ? y : String.join(", ", x, y));
 
         assertThat(a).isEqualTo("Fred, Wilma, Betty");
     }
@@ -218,10 +237,67 @@ public class BasicsTest {
     @Test
     public void withCombiner() {
         List<String> strings = List.of("boo", "ouch", "yadda");
-        var a = strings.stream().reduce(0,
-                                        (i, str) -> i + str.length(),
-                                        (x, y) -> x + y);
+        var a = strings.stream()
+                       .reduce(0,
+                               (i, str) -> i + str.length(),
+                               (x, y) -> x + y);
 
         assertThat(a).isEqualTo(12);
+    }
+
+    @Test
+    public void combinerWithCharacter() {
+        List<String> strings = List.of("dog", "over", "good");
+
+        var a = strings.stream()
+                       .reduce(Character.MIN_VALUE,
+                               new BiFunction<Character, String, Character>() {
+                                   @Override
+                                   public Character apply(Character c, String s) {
+                                       System.out.println("partialResult: [" + c + "], currentString: [" + s + "]");
+                                       return (char) (c + s.charAt(0));
+                                   }
+                               },
+                               new BinaryOperator<Character>() {
+                                   @Override
+                                   public Character apply(Character c1, Character c2) {
+                                       // this doesn't run, it's just to get the right type
+                                       return Character.MAX_VALUE;
+                                   }
+                               }
+                       );
+
+        System.out.println("combinerWithCharacter: " + a);
+        assertThat(a).isEqualTo('ĺ');
+
+    }
+
+    @Test
+        public void buildStringFromCharacters() {
+        List<String> strings = List.of("dog", "over", "good");
+
+        var a = strings.stream()
+            .map(v -> v.charAt(0))
+                       .reduce("",
+                               new BiFunction<String, Character, String>() {
+                                   @Override
+                                   public String apply(String s, Character c) {
+                                       System.out.println("partialResult: [" + s+ "], currentString: [" +c +"]");
+                                       return s.concat(String.valueOf(c));
+                                   }
+                               },
+                               new BinaryOperator<String>() {
+                                   @Override
+                                   public String apply(String s1, String s2) {
+                                       System.out.println("s1: [" + s1+ "], s2: [" +s2 +"]");
+                                       // this doesn't run
+                                       return "does not matter";
+                                   }
+                               }
+                       );
+
+        System.out.println("buildStringFromCharacters: " + a);
+        assertThat(a).isEqualTo("dog");
+
     }
 }
