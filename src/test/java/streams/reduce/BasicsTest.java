@@ -1,7 +1,5 @@
 package streams.reduce;
 
-import static org.assertj.core.api.Assertions.*;
-
 import model.User;
 import org.junit.Test;
 
@@ -16,6 +14,10 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.Assertions.withinPercentage;
 
 /**
  * The flavors of <em>reduce</em>:
@@ -273,23 +275,23 @@ public class BasicsTest {
     }
 
     @Test
-        public void buildStringFromCharacters() {
+    public void buildStringFromCharacters() {
         List<String> strings = List.of("dog", "over", "good");
 
         var a = strings.stream()
-            .map(v -> v.charAt(0))
+                       .map(v -> v.charAt(0))
                        .reduce("",
                                new BiFunction<String, Character, String>() {
                                    @Override
                                    public String apply(String s, Character c) {
-                                       System.out.println("partialResult: [" + s+ "], currentString: [" +c +"]");
+                                       System.out.println("partialResult: [" + s + "], currentString: [" + c + "]");
                                        return s.concat(String.valueOf(c));
                                    }
                                },
                                new BinaryOperator<String>() {
                                    @Override
                                    public String apply(String s1, String s2) {
-                                       System.out.println("s1: [" + s1+ "], s2: [" +s2 +"]");
+                                       System.out.println("s1: [" + s1 + "], s2: [" + s2 + "]");
                                        // this doesn't run
                                        return "does not matter";
                                    }
@@ -298,6 +300,32 @@ public class BasicsTest {
 
         System.out.println("buildStringFromCharacters: " + a);
         assertThat(a).isEqualTo("dog");
+
+    }
+
+    @Test
+    public void payAttentionToIdentity() {
+        Integer a = Stream.of(1, 1, 1)
+                          .filter(n -> n > 5) // empty stream
+                          .reduce(2, (x, y) -> x); // means we get identity
+        assertThat(a).isEqualTo(2);
+
+        Integer b = Stream.of(1, 1, 1)
+                          .reduce(2, (x, y) -> x); // means we get identity
+        assertThat(b).isEqualTo(2);
+    }
+
+    /**
+     * What else can you do with this? I haven't found a useful example.
+     */
+    @Test
+    public void threeArgReduce() {
+        Stream<String> strings = Stream.of("Gumball", "Bart", "Barney");
+        Integer reduce = strings.reduce(0,
+                                        (n, str) -> n + str.length(),
+                                        Integer::sum);
+
+        assertThat(reduce).isEqualTo(17);
 
     }
 }

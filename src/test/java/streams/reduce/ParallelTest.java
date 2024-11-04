@@ -2,7 +2,11 @@ package streams.reduce;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -53,5 +57,20 @@ public class ParallelTest {
                     .reduce(0, Integer::sum, Integer::sum);
 
         assertThat(b).isEqualTo(21);
+    }
+
+    @Test
+    public void processCsvFileInParallel() {
+        try (Stream<String> lines = Files.lines(Paths.get("src/test/resources/cars.csv"))) {
+            Integer reduce = lines.flatMap(line -> Stream.of(line.split(","))
+                                                         .parallel())
+                                  .reduce(0,
+                                          (num, str) -> num + str.length(),
+                                          Integer::sum);
+
+            assertThat(reduce).isEqualTo(85);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
