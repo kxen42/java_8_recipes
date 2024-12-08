@@ -2,7 +2,7 @@ plugins {
     id 'java'
     alias(libs.plugins.versions)
     alias(libs.plugins.version.catalog.update)
-    id "io.freefair.lombok" version "8.10.2" // https://docs.freefair.io/gradle-plugins/8.10.2/reference/#_lombok
+    id "io.freefair.lombok" version "8.11"
 }
 
 java {
