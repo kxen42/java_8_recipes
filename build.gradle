@@ -20,7 +20,7 @@ test {
 
 dependencies {
 
-    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation 'org.assertj:assertj-core:3.27.2'
 
     // JUnit bundle (includes vintage engine)
     testImplementation libs.bundles.junit
